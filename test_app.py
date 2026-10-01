@@ -1,8 +1,8 @@
 import os
 import re
-import subprocess
 import urllib
 import json
+from importlib.metadata import version
 from os import environ
 from time import sleep
 from playwright.sync_api import sync_playwright, expect
@@ -23,7 +23,7 @@ capabilities = {
 }
 
 def test_homepage_has_Playwright_in_title_and_get_started_link_linking_to_the_intro_page(playwright):
-    playwrightVersion = str(subprocess.getoutput('playwright --version')).strip().split(" ")[1]
+    playwrightVersion = version("playwright")
     capabilities['LT:Options']['playwrightVersion'] = playwrightVersion
     lt_cdp_url = 'wss://cdp.lambdatest.com/playwright?capabilities=' + urllib.parse.quote(json.dumps(capabilities))
     browser = playwright.chromium.connect(lt_cdp_url)
@@ -40,7 +40,7 @@ def test_homepage_has_Playwright_in_title_and_get_started_link_linking_to_the_in
         expect(page).to_have_url(re.compile(".*intro"))
         sleep(2)
         #Lambdatest sample app test
-        page.goto('https://lambdatest.github.io/sample-todo-app/')
+        page.goto('https://ltqa-frontend.lambdatestinternal.com/sample-todo-app/')
         page.locator('body > div > div > div > ul > li:nth-child(1) > input').click()
         page.locator('body > div > div > div > ul > li:nth-child(2) > input').click()
         page.locator('body > div > div > div > ul > li:nth-child(3) > input').click()
