@@ -8,7 +8,8 @@ matrix:
   files: ["test_app.py"]
 runson: ${matrix.os}
 pre:
-  - pip3 install -r requirement.txt --cache-dir CacheDir
+  - python -m pip install -r requirement.txt --cache-dir CacheDir
+  - npm install playwright@1.48.0
   - playwright install
 cacheKey: '{{ checksum "requirement.txt" }}'
 cacheDirectories:
@@ -19,3 +20,6 @@ post:
   - cat yaml/win/.hyperexecute_matrix.yaml
 
 jobLabel: [playwright-Python, win, matrix]
+runtime:
+  language: python
+  version: "3.11"

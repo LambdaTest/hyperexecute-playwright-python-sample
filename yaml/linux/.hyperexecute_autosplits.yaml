@@ -15,6 +15,7 @@ cacheDirectories:
   - CacheDir
 pre:
   - pip3 install -r requirement.txt --cache-dir CacheDir
+  - npm install playwright@1.48.0
   - playwright install
 testDiscovery:
   type: raw
